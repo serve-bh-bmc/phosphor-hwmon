@@ -354,6 +354,24 @@ void MainLoop::init()
             _state[std::move(i.first)] = std::move(value);
         }
 
+        // Initialize power critical value to sys filesystem
+        if ((i.first.first == hwmon::type::power) && 
+            i.second.find(hwmon::entry::critical) != i.second.end())
+        {
+            const auto& [sensorSysfsType, sensorSysfsNum] = i.first;
+        
+            // Write power critical value to sensor.
+            std::string crit = hwmon::entry::critical;
+
+            // Read power critical high value from environment
+            auto tHi = env::getEnv(Thresholds<CriticalObject>::envHi, 
+                    sensorSysfsType, sensorSysfsNum);
+
+            if(!tHi.empty())
+                _ioAccess->write(std::stoi(tHi), sensorSysfsType, sensorSysfsNum, crit, 
+                    hwmonio::retries, hwmonio::delay);
+        }
+
         // Initialize _averageMap of sensor. e.g. <<power, 1>, <0, 0>>
         if ((i.first.first == hwmon::type::power) &&
             (phosphor::utility::isAverageEnvSet(i.first)))

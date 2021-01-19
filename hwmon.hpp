@@ -16,6 +16,7 @@ static constexpr auto cenable = "enable";
 static constexpr auto cfault = "fault";
 static constexpr auto caverage = "average";
 static constexpr auto caverage_interval = "average_interval";
+static constexpr auto ccritical = "crit";
 
 static const std::string input = cinput;
 static const std::string label = clabel;
@@ -24,6 +25,7 @@ static const std::string enable = cenable;
 static const std::string fault = cfault;
 static const std::string average = caverage;
 static const std::string average_interval = caverage_interval;
+static const std::string critical = ccritical;
 } // namespace entry
 
 namespace type
