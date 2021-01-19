@@ -367,7 +367,8 @@ void MainLoop::init()
             auto tHi = env::getEnv(Thresholds<CriticalObject>::envHi, 
                     sensorSysfsType, sensorSysfsNum);
 
-            _ioAccess->write(std::stoi(tHi), sensorSysfsType, sensorSysfsNum, crit, 
+            if(!tHi.empty())
+                _ioAccess->write(std::stoi(tHi), sensorSysfsType, sensorSysfsNum, crit, 
                     hwmonio::retries, hwmonio::delay);
         }
 
